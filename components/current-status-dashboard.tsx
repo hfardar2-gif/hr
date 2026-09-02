@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ArrowDownLeft, ArrowUpLeft, BriefcaseBusiness, CalendarClock, CheckCircle2, CircleAlert, Download, FileSpreadsheet, Search, ShieldCheck, TrendingDown, TrendingUp, UserPlus, Users } from "lucide-react";
-import { useDashboardFilters } from "@/components/dashboard-filter-context";
+import { GlobalDashboardFilters, useDashboardFilters } from "@/components/dashboard-filter-context";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 
@@ -87,6 +87,7 @@ export function CurrentStatusDashboard({role}:{role:"executive"|"hr"}) {
   };
 
   return <div className="live-dashboard">
+    <GlobalDashboardFilters />
     <section className="live-dashboard-head"><div><p><span className="pulse-dot" />وضعیت جاری سازمان</p><h2>تصویر یکپارچه سرمایه انسانی</h2><span>آخرین همگام‌سازی: امروز، ساعت ۰۶:۰۰ · بروزرسانی روزانه</span></div><div className="data-source-stack"><Badge variant="outline">راهکاران</Badge><Badge variant="outline">دنیای پردازش</Badge><Badge variant="outline">Excel ارزیابی</Badge></div></section>
     <Tabs defaultValue="status" className="live-tabs">
       <TabsList><TabsTrigger value="status"><TrendingUp />وضعیت سازمان</TabsTrigger><TabsTrigger value="talent"><BriefcaseBusiness />مدیریت استعدادها</TabsTrigger></TabsList>

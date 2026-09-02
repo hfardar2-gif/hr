@@ -15,7 +15,7 @@ export default function LoginPage() {
           <div className="login-message">
             <p className="eyebrow">نمای یکپارچه سرمایه انسانی</p>
             <h1>از داده‌های پراکنده،<br />تا تصمیم‌های قابل اتکا</h1>
-            <p>تصویری روشن از وضعیت سازمان، واحدها و اقدامات توسعه‌ای؛ با اتصال داده‌های راهکاران، دنیای پردازش و ارزیابی‌های دوره‌ای.</p>
+            <p>تصویری روشن از وضعیت سازمان، واحدها و اقدامات توسعه‌ای.</p>
           </div>
           <div className="source-strip"><span><CheckCircle2 /> راهکاران</span><span><CheckCircle2 /> دنیای پردازش</span><span><CheckCircle2 /> ارزیابی عملکرد</span></div>
         </div>

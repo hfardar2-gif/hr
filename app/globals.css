@@ -313,3 +313,5 @@ body, button, input, select, textarea { font-family: "Vazirmatn", Tahoma, Arial,
  .live-table-card>header{align-items:stretch;flex-direction:column}
  .excel-button{width:100%}
 }
+
+.live-dashboard>.global-filter-panel{margin:0}
