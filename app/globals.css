@@ -494,3 +494,22 @@ button,a,select,input{touch-action:manipulation}
 @supports not (height:100dvh){
  .login-shell,.login-access-panel,.dashboard-root{min-height:100vh}
 }
+
+
+/* Discoverable mobile navigation */
+.mobile-menu-wrap,.mobile-bottom-nav{display:none}
+@media(max-width:767px){
+ .mobile-menu-wrap{display:block;position:relative;flex:0 0 auto}
+ .mobile-menu-trigger{display:flex;width:auto;min-width:116px;padding:0 12px;gap:7px;font-size:.78rem;font-weight:700;color:#123149;border-color:#cfdce2;background:#fff}
+ .mobile-menu-trigger svg{width:19px;height:19px}
+ .mobile-menu-guide{position:absolute;top:50px;right:0;z-index:45;width:220px;padding:12px 14px;border:1px solid #8bd2ca;border-radius:13px;background:#123149;color:#fff;font-size:.78rem;line-height:1.75;text-align:right;box-shadow:0 12px 32px rgba(10,37,55,.24);animation:menu-guide-in .28s ease-out}
+ .mobile-menu-guide:before{content:"";position:absolute;top:-7px;right:23px;width:13px;height:13px;transform:rotate(45deg);background:#123149;border-left:1px solid #8bd2ca;border-top:1px solid #8bd2ca}
+ .mobile-bottom-nav{position:fixed;display:grid;grid-template-columns:repeat(4,1fr);align-items:start;left:0;right:0;bottom:0;z-index:40;min-height:68px;padding:7px 8px max(7px,env(safe-area-inset-bottom));border-top:1px solid #dbe5e9;background:rgba(255,255,255,.98);box-shadow:0 -8px 24px rgba(15,49,73,.1)}
+ .mobile-bottom-nav>a,.mobile-bottom-more{min-width:0;min-height:52px;border:0;border-radius:12px;background:transparent;color:#6d7e8d;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:inherit;font-size:.75rem;font-weight:600;text-decoration:none}
+ .mobile-bottom-nav svg{width:20px;height:20px}
+ .mobile-bottom-nav>a.active{color:#0b8279;background:#e5f5f2}
+ .mobile-bottom-more{cursor:pointer}
+ .dashboard-content{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
+}
+@keyframes menu-guide-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.mobile-menu-guide{animation:none}}

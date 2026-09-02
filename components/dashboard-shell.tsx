@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Activity, Bell, BookOpenCheck, BriefcaseBusiness, Building2, CalendarClock, ChevronDown, ClipboardCheck, Database, FileChartColumn, HeartPulse, Gauge, LayoutDashboard, LogOut, Search, Users } from "lucide-react";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { useEffect, useState } from "react";
+import { Activity, Bell, BookOpenCheck, BriefcaseBusiness, Building2, CalendarClock, ChevronDown, ClipboardCheck, Database, FileChartColumn, HeartPulse, Gauge, LayoutDashboard, LogOut, Menu, Search, Users } from "lucide-react";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 
 const executiveItems = [
@@ -32,10 +33,28 @@ const hrItems = [
 
 function BrandMark() { return <div className="brand-mark small" aria-hidden="true"><span /><span /><span /></div>; }
 
+function MobileMenuButton({ className="", label="منوی صفحات", onOpen }:{ className?:string; label?:string; onOpen?:()=>void }) {
+  const { toggleSidebar } = useSidebar();
+  return <button type="button" className={className} onClick={()=>{onOpen?.();toggleSidebar();}} aria-label="بازکردن منوی صفحات"><Menu/><span>{label}</span></button>;
+}
+
 export function DashboardShell({ role, children }: { role: "executive" | "hr"; children: React.ReactNode }) {
   const pathname = usePathname();
   const items = role === "executive" ? executiveItems : hrItems;
   const roleLabel = role === "executive" ? "مدیرعامل" : "مدیر منابع انسانی";
+  const [showMenuGuide,setShowMenuGuide]=useState(false);
+  const bottomItems = role === "executive"
+    ? [{label:"خانه",icon:LayoutDashboard,href:"/executive"},{label:"وضعیت جاری",icon:Gauge,href:"/current-status"},{label:"واحدها",icon:Building2,href:"/departments/production"}]
+    : [{label:"خانه",icon:LayoutDashboard,href:"/hr"},{label:"وضعیت جاری",icon:Gauge,href:"/hr/current-status"},{label:"کارکنان",icon:Users,href:"/employees"}];
+
+  useEffect(()=>{
+    const key="hr-mobile-menu-guide-v1";
+    if(window.localStorage.getItem(key)) return;
+    const reveal=window.setTimeout(()=>{setShowMenuGuide(true);window.localStorage.setItem(key,"seen");},500);
+    const hide=window.setTimeout(()=>setShowMenuGuide(false),7500);
+    return ()=>{window.clearTimeout(reveal);window.clearTimeout(hide);};
+  },[]);
+  const dismissMenuGuide=()=>setShowMenuGuide(false);
   return (
     <div dir="rtl" className="dashboard-root">
       <SidebarProvider>
@@ -55,10 +74,14 @@ export function DashboardShell({ role, children }: { role: "executive" | "hr"; c
         </Sidebar>
         <SidebarInset className="dashboard-surface">
           <header className="topbar">
-            <div className="flex items-center gap-3"><SidebarTrigger className="mobile-menu-trigger md:hidden" aria-label="بازکردن منوی سامانه" /><div><p className="topbar-date">چهارشنبه، ۱۱ شهریور ۱۴۰۵</p><h1>{role === "executive" ? "داشبورد مدیرعامل" : "داشبورد منابع انسانی"}</h1></div></div>
+            <div className="flex items-center gap-3"><div className="mobile-menu-wrap"><MobileMenuButton className="mobile-menu-trigger" onOpen={dismissMenuGuide} />{showMenuGuide&&<button type="button" className="mobile-menu-guide" onClick={dismissMenuGuide}>برای مشاهده سایر صفحات، این دکمه را بزنید.</button>}</div><div><p className="topbar-date">چهارشنبه، ۱۱ شهریور ۱۴۰۵</p><h1>{role === "executive" ? "داشبورد مدیرعامل" : "داشبورد منابع انسانی"}</h1></div></div>
             <div className="topbar-actions"><div className="global-search"><Search /><span>جستجو در گزارش‌ها</span></div><Button variant="outline" size="icon" aria-label="اعلان‌ها" className="relative"><Bell /><i className="notification-dot" /></Button><button className="profile-chip"><span className="avatar">{role === "executive" ? "م‌ع" : "م‌ا"}</span><span><strong>{roleLabel}</strong><small>شرکت صنعتی نمونه</small></span><ChevronDown /></button></div>
           </header>
           <main className="dashboard-content" key={pathname}>{children}</main>
+          <nav className="mobile-bottom-nav" aria-label="دسترسی سریع موبایل">
+            {bottomItems.map(item=>{const active=pathname===item.href||(item.href==="/employees"&&pathname.startsWith("/employees"));return <Link href={item.href} className={active?"active":""} key={item.label}><item.icon/><span>{item.label}</span></Link>;})}
+            <MobileMenuButton className="mobile-bottom-more" label="بیشتر" onOpen={dismissMenuGuide}/>
+          </nav>
         </SidebarInset>
       </SidebarProvider>
     </div>
