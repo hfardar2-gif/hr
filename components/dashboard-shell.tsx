@@ -55,7 +55,7 @@ export function DashboardShell({ role, children }: { role: "executive" | "hr"; c
         </Sidebar>
         <SidebarInset className="dashboard-surface">
           <header className="topbar">
-            <div className="flex items-center gap-3"><SidebarTrigger className="md:hidden" /><div><p className="topbar-date">چهارشنبه، ۱۱ شهریور ۱۴۰۵</p><h1>{role === "executive" ? "داشبورد مدیرعامل" : "داشبورد منابع انسانی"}</h1></div></div>
+            <div className="flex items-center gap-3"><SidebarTrigger className="mobile-menu-trigger md:hidden" aria-label="بازکردن منوی سامانه" /><div><p className="topbar-date">چهارشنبه، ۱۱ شهریور ۱۴۰۵</p><h1>{role === "executive" ? "داشبورد مدیرعامل" : "داشبورد منابع انسانی"}</h1></div></div>
             <div className="topbar-actions"><div className="global-search"><Search /><span>جستجو در گزارش‌ها</span></div><Button variant="outline" size="icon" aria-label="اعلان‌ها" className="relative"><Bell /><i className="notification-dot" /></Button><button className="profile-chip"><span className="avatar">{role === "executive" ? "م‌ع" : "م‌ا"}</span><span><strong>{roleLabel}</strong><small>شرکت صنعتی نمونه</small></span><ChevronDown /></button></div>
           </header>
           <main className="dashboard-content" key={pathname}>{children}</main>

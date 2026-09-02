@@ -340,3 +340,142 @@ body, button, input, select, textarea { font-family: "Vazirmatn", Tahoma, Arial,
  .training-status{grid-template-columns:1fr}
  .employee-hero{grid-template-columns:auto 1fr}.employee-score{grid-column:1/-1}
 }
+
+
+/* Mobile-first usability layer */
+html,body{max-width:100%;overflow-x:hidden}
+body{min-width:320px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+button,a,select,input{touch-action:manipulation}
+.table-wrap,.live-table-scroll{scrollbar-width:thin;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
+.mobile-menu-trigger{flex:0 0 42px;width:42px;height:42px;border:1px solid #dce4e9;border-radius:12px;background:#fff;color:#17375e;box-shadow:0 4px 12px rgba(15,23,42,.06)}
+
+@media(max-width:900px){
+ .dashboard-content{min-width:0}
+ .topbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+ .topbar-actions .global-search{display:none}
+ .profile-chip{min-width:auto}
+ .dashboard-grid,.one-one-one{grid-template-columns:1fr}
+ .quality-card,.workflow-card,.risk-list-card{min-width:0}
+ .talent-layout{grid-template-columns:1fr}
+}
+
+@media(max-width:768px){
+ .login-shell{min-height:100dvh;display:block}
+ .login-brand-panel{display:none}
+ .login-access-panel{min-height:100dvh;padding:24px 14px max(24px,env(safe-area-inset-bottom))}
+ .access-wrap{width:100%;max-width:520px;margin:auto}
+ .mobile-brand{display:flex}
+ .role-grid{grid-template-columns:1fr;gap:12px}
+ .role-card{padding:18px;border-radius:18px}
+ .role-card [data-slot="button"]{min-height:48px}
+ .demo-note{padding-bottom:env(safe-area-inset-bottom)}
+
+ .dashboard-root{min-height:100dvh}
+ .topbar{min-height:66px;padding:9px 12px;gap:8px;border-bottom:1px solid #e6ecef}
+ .topbar>div:first-child{min-width:0}
+ .topbar h1{font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw}
+ .topbar-date{font-size:.62rem}
+ .topbar-actions{gap:7px}
+ .topbar-actions>button[aria-label="اعلان‌ها"]{display:none}
+ .profile-chip{width:42px;height:42px;padding:0;display:grid;place-items:center;border-radius:12px}
+ .profile-chip>span:not(.avatar),.profile-chip>svg{display:none}
+ .profile-chip .avatar{width:32px;height:32px;margin:0}
+ .dashboard-content{width:100%;padding:14px 12px calc(32px + env(safe-area-inset-bottom));overflow:hidden}
+ .dashboard-page-stack,.live-dashboard,.employee-status-content{gap:14px}
+
+ .page-intro{display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:16px}
+ .page-intro h2{font-size:1.05rem;line-height:1.65}
+ .period-filter{width:100%;justify-content:space-between}
+ .stats-grid,.hr-stats,.metric-strip,.behavior-summary,.risk-cards{grid-template-columns:1fr!important;gap:10px}
+ .stat-card{min-height:175px}
+ .stat-card:hover{transform:none}
+ .section-heading{display:flex;align-items:flex-start;flex-direction:column;gap:10px}
+ .section-heading h2{font-size:1rem}
+ .section-heading>button,.section-heading>a,.section-heading>a>button{width:100%}
+ .section-heading button{min-height:42px;justify-content:center}
+
+ .dashboard-grid,.analysis-grid,.tab-panel-grid,.employee-tab-detail{grid-template-columns:1fr!important;gap:12px}
+ .detail-hero .hero-content{display:grid;grid-template-columns:1fr;padding:20px}
+ .detail-hero h2{font-size:1.32rem}
+ .hero-score{width:104px;min-width:104px}
+ .metric-tile{min-height:105px}
+ .panel-card [data-slot="card-header"]{padding:15px}
+ .indicator-row,.score-breakdown .indicator-row{grid-template-columns:minmax(95px,120px) minmax(80px,1fr) 38px;gap:8px}
+ .action-item{padding:11px}
+
+ .table-card,.live-table-card{max-width:100%;overflow:hidden}
+ .table-wrap,.live-table-scroll{position:relative;width:100%;overflow-x:auto}
+ .department-table{min-width:760px}
+ .department-table th,.department-table td,.live-table-card th,.live-table-card td{padding:11px 12px}
+ .live-table-card table{min-width:760px}
+ .live-table-card>header{align-items:stretch;flex-direction:column}
+ .live-table-card footer{align-items:flex-start;flex-direction:column;gap:4px}
+ .privacy-summary{align-items:flex-start;padding:18px}
+
+ .live-dashboard-head{padding:17px;align-items:flex-start;flex-direction:column}
+ .live-dashboard-head h2{font-size:1.18rem}
+ .data-source-stack{justify-content:flex-start}
+ .live-kpi-grid{grid-template-columns:1fr!important;gap:10px}
+ .live-kpi{min-height:190px}
+ .live-section-title{align-items:flex-start;flex-direction:column}
+ .live-chart-grid{grid-template-columns:1fr}
+ .live-chart-card.wide{grid-column:auto}
+ .live-chart-card>header{padding:14px}
+ .chart-body{padding:4px 2px 0;min-height:270px}
+ .chart-body .recharts-wrapper{font-size:10px}
+ .chart-live-dot{display:none}
+ .donut-center{top:124px}
+
+ .employee-status-layout{grid-template-columns:1fr}
+ .employee-picker{position:static;max-height:none}
+ .employee-hero{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:17px}
+ .employee-avatar{width:58px;height:58px;border-radius:17px;font-size:1.2rem}
+ .employee-hero h2{font-size:1.12rem}
+ .employee-score{grid-column:1/-1;width:100%;display:flex;align-items:center;justify-content:space-between}
+ .employee-score strong{font-size:1.35rem}
+ .employee-metric-strip{grid-template-columns:1fr 1fr;gap:8px}
+ .employee-metric-strip>div{padding:12px}
+ .profile-tabs [role="tablist"]{display:flex!important;grid-template-columns:none!important;width:100%;overflow-x:auto;justify-content:flex-start;scrollbar-width:none}
+ .profile-tabs [role="tablist"]::-webkit-scrollbar{display:none}
+ .profile-tabs [role="tab"]{min-width:112px;min-height:44px;flex:0 0 auto}
+ .fact-grid{grid-template-columns:1fr}
+ .attendance-timeline{min-width:0}
+
+ .unit-heatmap,.model-weights{grid-template-columns:1fr}
+ .heat-card{min-height:94px}
+ .nine-box-card{overflow-x:auto;-webkit-overflow-scrolling:touch}
+ .nine-box-card>header{position:sticky;right:0;min-width:620px}
+ .nine-box{min-width:620px;grid-template-rows:repeat(3,125px)}
+ .funnel-card{min-width:0}
+ .succession-funnel{padding-inline:12px}
+ .governance-note{grid-template-columns:auto 1fr;padding:13px}
+ .governance-note>span{grid-column:1/-1}
+
+ .quality-content{display:grid;grid-template-columns:1fr}
+ .quality-ring{margin:auto}
+ .workflow-list>div{grid-template-columns:auto 1fr}
+ .workflow-list [role="progressbar"]{grid-column:1/-1}
+ .mini-risk-list article{grid-template-columns:auto 1fr auto}
+}
+
+@media(max-width:480px){
+ .dashboard-content{padding-inline:10px}
+ .topbar h1{max-width:43vw;font-size:.84rem}
+ .live-dashboard-head .data-source-stack [data-slot="badge"]{font-size:.6rem}
+ .employee-metric-strip{grid-template-columns:1fr}
+ .behavior-card{min-height:118px}
+ .indicator-row,.score-breakdown .indicator-row{grid-template-columns:92px minmax(70px,1fr) 34px}
+ .indicator-row>span{font-size:.72rem}
+ .training-status{grid-template-columns:1fr}
+ .health-status-card [data-slot="card-content"]{align-items:flex-start;padding:18px}
+}
+
+@media(hover:none) and (pointer:coarse){
+ button,a,[role="button"]{min-height:44px}
+ .nav-item{min-height:46px}
+ .row-action{padding:8px}
+}
+
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
