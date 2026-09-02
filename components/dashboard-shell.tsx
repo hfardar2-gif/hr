@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Activity, Bell, BookOpenCheck, BriefcaseBusiness, Building2, CalendarClock, ChevronDown, ClipboardCheck, Database, FileChartColumn, HeartPulse, LayoutDashboard, LogOut, Search, Users } from "lucide-react";
+import { Activity, Bell, BookOpenCheck, BriefcaseBusiness, Building2, CalendarClock, ChevronDown, ClipboardCheck, Database, FileChartColumn, HeartPulse, Gauge, LayoutDashboard, LogOut, Search, Users } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import { DashboardFilterProvider, GlobalDashboardFilters } from "@/components/dashboard-filter-context";
 
 const executiveItems = [
   { label: "نمای کلی سازمان", icon: LayoutDashboard, href: "/executive" },
+  { label: "وضعیت جاری سازمان", icon: Gauge, href: "/current-status" },
   { label: "سرمایه انسانی", icon: Users, href: "/executive" },
   { label: "عملکرد واحدها", icon: Building2, href: "/departments/production" },
   { label: "رفتار سازمانی", icon: Activity, href: "/organizational-behavior" },
@@ -15,6 +17,7 @@ const executiveItems = [
 ];
 const hrItems = [
   { label: "داشبورد منابع انسانی", icon: LayoutDashboard, href: "/hr" },
+  { label: "وضعیت جاری سازمان", icon: Gauge, href: "/hr/current-status" },
   { label: "کارکنان", icon: Users, href: "/employees/1038" },
   { label: "حضور و غیاب", icon: CalendarClock, href: "/employees/1038" },
   { label: "ارزیابی عملکرد", icon: ClipboardCheck, href: "/employees/1038" },
@@ -50,11 +53,14 @@ export function DashboardShell({ role, children }: { role: "executive" | "hr"; c
           <SidebarFooter className="border-t border-white/10 p-3"><SidebarMenu><SidebarMenuItem><SidebarMenuButton asChild tooltip="خروج از نسخه نمایشی" className="nav-item"><Link href="/"><LogOut /><span>خروج از نسخه نمایشی</span></Link></SidebarMenuButton></SidebarMenuItem></SidebarMenu></SidebarFooter>
         </Sidebar>
         <SidebarInset className="dashboard-surface">
+          <DashboardFilterProvider>
           <header className="topbar">
             <div className="flex items-center gap-3"><SidebarTrigger className="md:hidden" /><div><p className="topbar-date">چهارشنبه، ۱۱ شهریور ۱۴۰۵</p><h1>{role === "executive" ? "داشبورد مدیرعامل" : "داشبورد منابع انسانی"}</h1></div></div>
             <div className="topbar-actions"><div className="global-search"><Search /><span>جستجو در گزارش‌ها</span></div><Button variant="outline" size="icon" aria-label="اعلان‌ها" className="relative"><Bell /><i className="notification-dot" /></Button><button className="profile-chip"><span className="avatar">{role === "executive" ? "م‌ع" : "م‌ا"}</span><span><strong>{roleLabel}</strong><small>شرکت صنعتی نمونه</small></span><ChevronDown /></button></div>
           </header>
+          <GlobalDashboardFilters />
           <main className="dashboard-content" key={pathname}>{children}</main>
+          </DashboardFilterProvider>
         </SidebarInset>
       </SidebarProvider>
     </div>
