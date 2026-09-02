@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ArrowDownLeft, ArrowUpLeft, BriefcaseBusiness, CalendarClock, CheckCircle2, CircleAlert, Download, FileSpreadsheet, Search, ShieldCheck, TrendingDown, TrendingUp, UserPlus, Users } from "lucide-react";
-import { GlobalDashboardFilters, useDashboardFilters } from "@/components/dashboard-filter-context";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 
@@ -56,7 +55,7 @@ function ChartBox({title,subtitle,children,wide=false}:{title:string;subtitle?:s
 const tooltipStyle={border:"1px solid #dfe7ec",borderRadius:12,boxShadow:"0 10px 25px rgba(15,23,42,.12)",fontFamily:"Vazirmatn",fontSize:12,direction:"rtl" as const};
 
 export function CurrentStatusDashboard({role}:{role:"executive"|"hr"}) {
-  const {filters}=useDashboardFilters();
+  const filters={period:"month",unit:"all",contract:"all",location:"all"};
   const [search,setSearch]=useState("");
   const unitBase=filters.unit==="all"?300:(units.find((item)=>item.name===filters.unit)?.count||300);
   const contractFactor:Record<string,number>={all:1,"رسمی":.51,"پیمانی":.29,"پروژه‌ای":.14,"امانی":.06};
@@ -87,7 +86,6 @@ export function CurrentStatusDashboard({role}:{role:"executive"|"hr"}) {
   };
 
   return <div className="live-dashboard">
-    <GlobalDashboardFilters />
     <section className="live-dashboard-head"><div><p><span className="pulse-dot" />وضعیت جاری سازمان</p><h2>تصویر یکپارچه سرمایه انسانی</h2><span>آخرین همگام‌سازی: امروز، ساعت ۰۶:۰۰ · بروزرسانی روزانه</span></div><div className="data-source-stack"><Badge variant="outline">راهکاران</Badge><Badge variant="outline">دنیای پردازش</Badge><Badge variant="outline">Excel ارزیابی</Badge></div></section>
     <Tabs defaultValue="status" className="live-tabs">
       <TabsList><TabsTrigger value="status"><TrendingUp />وضعیت سازمان</TabsTrigger><TabsTrigger value="talent"><BriefcaseBusiness />مدیریت استعدادها</TabsTrigger></TabsList>

@@ -42,7 +42,7 @@ export default function LoginPage() {
               <Button asChild className="w-full justify-between bg-teal-600 hover:bg-teal-700"><Link href="/hr">ورود به داشبورد منابع انسانی <ArrowLeft /></Link></Button>
             </article>
           </div>
-          <p className="demo-note">نسخه نمایشی · داده‌ها ساختگی هستند</p>
+          <p className="demo-note">نسخه شماره ۱</p>
         </div>
       </section>
     </main>
