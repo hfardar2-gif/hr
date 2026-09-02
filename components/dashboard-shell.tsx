@@ -7,18 +7,23 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupConte
 import { Button } from "@/components/ui/button";
 
 const executiveItems = [
-  { label: "نمای کلی سازمان", icon: LayoutDashboard },
-  { label: "سرمایه انسانی", icon: Users },
-  { label: "عملکرد واحدها", icon: Building2 },
-  { label: "رفتار سازمانی", icon: Activity },
-  { label: "گزارش مدیریتی", icon: FileChartColumn },
+  { label: "نمای کلی سازمان", icon: LayoutDashboard, href: "/executive" },
+  { label: "سرمایه انسانی", icon: Users, href: "/executive" },
+  { label: "عملکرد واحدها", icon: Building2, href: "/departments/production" },
+  { label: "رفتار سازمانی", icon: Activity, href: "/organizational-behavior" },
+  { label: "گزارش مدیریتی", icon: FileChartColumn, href: "/executive" },
 ];
 const hrItems = [
-  { label: "داشبورد منابع انسانی", icon: LayoutDashboard }, { label: "کارکنان", icon: Users },
-  { label: "حضور و غیاب", icon: CalendarClock }, { label: "ارزیابی عملکرد", icon: ClipboardCheck },
-  { label: "رفتار سازمانی", icon: Activity }, { label: "آموزش و توسعه", icon: BookOpenCheck },
-  { label: "استخدام و خروج", icon: BriefcaseBusiness }, { label: "سلامت و معاینات", icon: HeartPulse },
-  { label: "واحدهای سازمانی", icon: Building2 }, { label: "حاکمیت داده", icon: Database },
+  { label: "داشبورد منابع انسانی", icon: LayoutDashboard, href: "/hr" },
+  { label: "کارکنان", icon: Users, href: "/employees/1038" },
+  { label: "حضور و غیاب", icon: CalendarClock, href: "/employees/1038" },
+  { label: "ارزیابی عملکرد", icon: ClipboardCheck, href: "/employees/1038" },
+  { label: "رفتار سازمانی", icon: Activity, href: "/organizational-behavior" },
+  { label: "آموزش و توسعه", icon: BookOpenCheck, href: "/employees/1038" },
+  { label: "استخدام و خروج", icon: BriefcaseBusiness, href: "/hr" },
+  { label: "سلامت و معاینات", icon: HeartPulse, href: "/employees/1038" },
+  { label: "واحدهای سازمانی", icon: Building2, href: "/departments/production" },
+  { label: "حاکمیت داده", icon: Database, href: "/hr" },
 ];
 
 function BrandMark() { return <div className="brand-mark small" aria-hidden="true"><span /><span /><span /></div>; }
@@ -36,7 +41,10 @@ export function DashboardShell({ role, children }: { role: "executive" | "hr"; c
           </SidebarHeader>
           <SidebarContent className="px-2 py-3">
             <SidebarGroup><SidebarGroupLabel className="text-slate-500">فضای کاری {roleLabel}</SidebarGroupLabel><SidebarGroupContent><SidebarMenu>
-              {items.map((item, index) => <SidebarMenuItem key={item.label}><SidebarMenuButton tooltip={item.label} isActive={index === 0} className="nav-item"><item.icon /><span>{item.label}</span></SidebarMenuButton></SidebarMenuItem>)}
+              {items.map((item) => {
+                const active = pathname === item.href || (item.href !== "/executive" && item.href !== "/hr" && pathname.startsWith(item.href));
+                return <SidebarMenuItem key={item.label}><SidebarMenuButton asChild tooltip={item.label} isActive={active} className="nav-item"><Link href={item.href}><item.icon /><span>{item.label}</span></Link></SidebarMenuButton></SidebarMenuItem>;
+              })}
             </SidebarMenu></SidebarGroupContent></SidebarGroup>
           </SidebarContent>
           <SidebarFooter className="border-t border-white/10 p-3"><SidebarMenu><SidebarMenuItem><SidebarMenuButton asChild tooltip="خروج از نسخه نمایشی" className="nav-item"><Link href="/"><LogOut /><span>خروج از نسخه نمایشی</span></Link></SidebarMenuButton></SidebarMenuItem></SidebarMenu></SidebarFooter>

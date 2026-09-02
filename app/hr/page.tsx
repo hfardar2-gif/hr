@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AlertTriangle, BookOpenCheck, CheckCircle2, ClipboardCheck, HeartPulse, ListChecks, UserRoundSearch, Users } from "lucide-react";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { DataQualityRing, DepartmentTable, SectionHeading, StatCard } from "@/components/dashboard-widgets";
@@ -6,9 +7,9 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 
 const risks = [
-  { name: "مهدی کریمی", code: "پرسنلی ۱۰۳۸", dept: "تولید", reason: "کاهش عملکرد و تأخیر مکرر", score: 38, state: "فوری" },
-  { name: "رضا احمدی", code: "پرسنلی ۱۲۴۱", dept: "تعمیرات", reason: "آموزش ایمنی تکمیل نشده", score: 44, state: "پیگیری" },
-  { name: "سارا محمدی", code: "پرسنلی ۱۱۷۶", dept: "بازرگانی", reason: "افت همکاری تیمی", score: 51, state: "توسعه" },
+  { id: "1038", name: "مهدی کریمی", code: "پرسنلی ۱۰۳۸", dept: "تولید", reason: "کاهش عملکرد و تأخیر مکرر", score: 38, state: "فوری" },
+  { id: "1241", name: "رضا احمدی", code: "پرسنلی ۱۲۴۱", dept: "تعمیرات", reason: "آموزش ایمنی تکمیل نشده", score: 44, state: "پیگیری" },
+  { id: "1176", name: "سارا محمدی", code: "پرسنلی ۱۱۷۶", dept: "بازرگانی", reason: "افت همکاری تیمی", score: 51, state: "توسعه" },
 ];
 
 export default function HrDashboard() {
@@ -28,9 +29,9 @@ export default function HrDashboard() {
         <div><span className="workflow-icon"><BookOpenCheck /></span><div><strong>برنامه‌های آموزشی</strong><p>۱۳ اقدام · ۷ تکمیل‌شده</p></div><Progress value={54} /></div>
         <div><span className="workflow-icon"><UserRoundSearch /></span><div><strong>جلسات بازخورد</strong><p>۷ اقدام · ۲ در انتظار</p></div><Progress value={71} /></div>
       </CardContent></Card>
-      <Card className="risk-list-card"><CardHeader><CardTitle>اولویت‌های امروز</CardTitle><button>مشاهده همه</button></CardHeader><CardContent className="mini-risk-list">{risks.map((r) => <article key={r.code}><span className="person-avatar">{r.name.slice(0,1)}</span><div><strong>{r.name}</strong><p>{r.dept} · امتیاز {r.score}</p></div><Badge className={r.state === "فوری" ? "urgent" : "soft-amber"}>{r.state}</Badge></article>)}</CardContent></Card>
+      <Card className="risk-list-card"><CardHeader><CardTitle>اولویت‌های امروز</CardTitle><button>مشاهده همه</button></CardHeader><CardContent className="mini-risk-list">{risks.map((r) => <Link className="page-link" href={`/employees/${r.id}`} key={r.code}><article><span className="person-avatar">{r.name.slice(0,1)}</span><div><strong>{r.name}</strong><p>{r.dept} · امتیاز {r.score}</p></div><Badge className={r.state === "فوری" ? "urgent" : "soft-amber"}>{r.state}</Badge></article></Link>)}</CardContent></Card>
     </section>
-    <section><SectionHeading title="تحلیل واحدهای سازمانی" description="از وضعیت کل سازمان به واحد و سپس پرونده فردی وارد شوید" action="گزارش رفتار سازمانی" /><Card className="table-card"><CardContent className="p-0"><DepartmentTable hr /></CardContent></Card></section>
-    <section className="risk-section"><SectionHeading title="افراد نیازمند توجه" description="موارد اولویت‌دار بر اساس عملکرد، حضور، آموزش و رفتار سازمانی" action="مشاهده ۳۶ مورد" /><div className="risk-cards">{risks.map((r) => <Card key={r.code} className="person-risk-card"><CardContent><div className="person-head"><span className="person-avatar large">{r.name.slice(0,1)}</span><div><strong>{r.name}</strong><p>{r.code} · واحد {r.dept}</p></div><span className="risk-score">{r.score}</span></div><p className="risk-reason">{r.reason}</p><div className="person-actions"><Badge className={r.state === "فوری" ? "urgent" : "soft-amber"}>{r.state}</Badge><button>بررسی پرونده</button></div></CardContent></Card>)}</div></section>
+    <section><SectionHeading title="تحلیل واحدهای سازمانی" description="از وضعیت کل سازمان به واحد و سپس پرونده فردی وارد شوید" action="گزارش رفتار سازمانی" href="/organizational-behavior" /><Card className="table-card"><CardContent className="p-0"><DepartmentTable hr /></CardContent></Card></section>
+    <section className="risk-section"><SectionHeading title="افراد نیازمند توجه" description="موارد اولویت‌دار بر اساس عملکرد، حضور، آموزش و رفتار سازمانی" action="مشاهده ۳۶ مورد" /><div className="risk-cards">{risks.map((r) => <Card key={r.code} className="person-risk-card"><CardContent><div className="person-head"><span className="person-avatar large">{r.name.slice(0,1)}</span><div><strong>{r.name}</strong><p>{r.code} · واحد {r.dept}</p></div><span className="risk-score">{r.score}</span></div><p className="risk-reason">{r.reason}</p><div className="person-actions"><Badge className={r.state === "فوری" ? "urgent" : "soft-amber"}>{r.state}</Badge><Link href={`/employees/${r.id}`}>بررسی پرونده</Link></div></CardContent></Card>)}</div></section>
   </DashboardShell>;
 }
