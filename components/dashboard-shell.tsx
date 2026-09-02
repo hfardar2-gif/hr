@@ -24,7 +24,7 @@ const hrItems = [
   { label: "آموزش و توسعه", icon: BookOpenCheck, href: "/employees/1038" },
   { label: "استخدام و خروج", icon: BriefcaseBusiness, href: "/hr" },
   { label: "سلامت و معاینات", icon: HeartPulse, href: "/employees/1038" },
-  { label: "واحدهای سازمانی", icon: Building2, href: "/departments/production" },
+  { label: "واحدهای سازمانی", icon: Building2, href: "/hr/departments/production" },
   { label: "حاکمیت داده", icon: Database, href: "/hr" },
 ];
 
