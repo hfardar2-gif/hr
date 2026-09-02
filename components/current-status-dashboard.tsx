@@ -48,7 +48,7 @@ function UnitAxisTick({x=0,y=0,payload}:{x?:number;y?:number;payload?:{value?:st
   const labelWidth=Math.max(118,x-8);
   return <g className="unit-axis-label">
     <rect x={4} y={y-13} width={labelWidth} height={26} rx={6} fill="#17375e"/>
-    <text x={labelWidth-8} y={y} dy="0.35em" fill="#ffffff" fontSize={11} fontWeight={700} textAnchor="end" style={{fontFamily:"Vazirmatn, Tahoma, Arial, sans-serif"}}>{payload?.value??""}</text>
+    <text x={labelWidth-8} y={y} dy="0.35em" fill="#ffffff" fontSize={11} fontWeight={700} textAnchor="end" direction="ltr" unicodeBidi="plaintext" style={{fontFamily:"Vazirmatn, Tahoma, Arial, sans-serif"}}>{payload?.value??""}</text>
   </g>;
 }
 function ChartBox({title,subtitle,children,wide=false}:{title:string;subtitle?:string;children:React.ReactNode;wide?:boolean}) {
