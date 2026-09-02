@@ -47,8 +47,9 @@ function Sparkline({values,color}:{values:number[];color:string}) {
 function UnitAxisTick({x=0,y=0,payload}:{x?:number;y?:number;payload?:{value?:string}}) {
   const labelWidth=Math.max(118,x-8);
   return <g className="unit-axis-label">
-    <rect x={4} y={y-13} width={labelWidth} height={26} rx={6} fill="#17375e"/>
-    <text x={labelWidth-8} y={y} dy="0.35em" fill="#ffffff" fontSize={11} fontWeight={700} textAnchor="end" direction="ltr" unicodeBidi="plaintext" style={{fontFamily:"Vazirmatn, Tahoma, Arial, sans-serif"}}>{payload?.value??""}</text>
+    <foreignObject x={4} y={y-14} width={labelWidth} height={28}>
+      <div dir="rtl" style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"flex-end",padding:"0 9px",boxSizing:"border-box",borderRadius:6,background:"#17375e",color:"#ffffff",fontFamily:"Vazirmatn, Tahoma, Arial, sans-serif",fontSize:11,fontWeight:700,textAlign:"right",whiteSpace:"nowrap",overflow:"hidden"}}>{payload?.value??""}</div>
+    </foreignObject>
   </g>;
 }
 function ChartBox({title,subtitle,children,wide=false}:{title:string;subtitle?:string;children:React.ReactNode;wide?:boolean}) {
