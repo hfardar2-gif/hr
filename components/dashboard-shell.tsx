@@ -20,7 +20,7 @@ const hrItems = [
   { label: "کارکنان", icon: Users, href: "/employees" },
   { label: "حضور و غیاب", icon: CalendarClock, href: "/employees/1038" },
   { label: "ارزیابی عملکرد", icon: ClipboardCheck, href: "/employees/1038" },
-  { label: "رفتار سازمانی", icon: Activity, href: "/organizational-behavior" },
+  { label: "رفتار سازمانی", icon: Activity, href: "/hr/organizational-behavior" },
   { label: "آموزش و توسعه", icon: BookOpenCheck, href: "/employees/1038" },
   { label: "استخدام و خروج", icon: BriefcaseBusiness, href: "/hr" },
   { label: "سلامت و معاینات", icon: HeartPulse, href: "/employees/1038" },
