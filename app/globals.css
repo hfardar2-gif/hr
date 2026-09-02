@@ -513,3 +513,10 @@ button,a,select,input{touch-action:manipulation}
 }
 @keyframes menu-guide-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){.mobile-menu-guide{animation:none}}
+
+
+/* Department performance selector */
+.department-selector-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 18px;border:1px solid #d9e4e8;border-radius:16px;background:linear-gradient(135deg,#123149,#19445f);box-shadow:0 10px 24px rgba(15,49,73,.12)}
+.department-selector-bar>div{display:grid;gap:3px;color:#fff}.department-selector-bar>div span{font-size:.75rem;color:#8fd8d0}.department-selector-bar>div strong{font-size:.95rem}
+.department-selector-bar label{display:flex;align-items:center;gap:10px;color:#dbe9ee;font-size:.78rem}.department-selector-bar select{min-width:230px;height:44px;padding:0 13px;border:1px solid rgba(255,255,255,.28);border-radius:11px;background:#fff;color:#17375e;font-family:inherit;font-size:.82rem;font-weight:700;outline:none;cursor:pointer}.department-selector-bar select:focus{border-color:#49c7bb;box-shadow:0 0 0 3px rgba(73,199,187,.22)}
+@media(max-width:700px){.department-selector-bar{align-items:stretch;flex-direction:column}.department-selector-bar label{display:grid;gap:6px}.department-selector-bar select{width:100%;min-width:0}}

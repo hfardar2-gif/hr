@@ -1,4 +1,6 @@
-import { notFound } from "next/navigation";
+"use client";
+
+import { notFound, useRouter } from "next/navigation";
 import { AlertTriangle, ArrowLeft, BookOpenCheck, CalendarCheck2, Clock3, ShieldCheck, TrendingUp, Users } from "lucide-react";
 import { departments, SectionHeading, TrendChart } from "@/components/dashboard-widgets";
 import { Badge } from "@/components/ui/badge";
@@ -15,10 +17,16 @@ const details: Record<string, { attendance: string; training: string; overtime: 
 };
 
 export function DepartmentDashboard({ slug, role }: { slug: string; role: "executive" | "hr" }) {
+  const router = useRouter();
   const department = departments.find((item) => item.slug === slug);
   const detail = details[slug];
   if (!department || !detail) notFound();
+  const departmentBase = role === "hr" ? "/hr/departments" : "/departments";
   return <div className="dashboard-page-stack">
+    <section className="department-selector-bar">
+      <div><span>عملکرد واحدها</span><strong>واحد موردنظر را انتخاب کنید</strong></div>
+      <label><span>واحد سازمانی</span><select value={slug} onChange={(event)=>router.push(`${departmentBase}/${event.target.value}`)} aria-label="انتخاب واحد سازمانی">{departments.map((item)=><option value={item.slug} key={item.slug}>{item.name}</option>)}</select></label>
+    </section>
     <Card className="detail-hero"><CardContent className="hero-content"><div><p className="eyebrow">تحلیل عمیق واحد سازمانی</p><h2>واحد {department.name}</h2><p>نمای تجمیعی عملکرد، حضور، آموزش و رفتار سازمانی. این صفحه فاقد اطلاعات هویتی کارکنان است و برای مدیرعامل نیز قابل مشاهده است.</p></div><div className="hero-score" style={{ "--score": `${department.score * 3.6}deg` } as React.CSSProperties}><div><strong>{department.score}</strong><span>امتیاز واحد</span></div></div></CardContent></Card>
     <section className="metric-strip">
       <div className="metric-tile"><span><Users />تعداد نیرو</span><strong>{department.people} نفر</strong><small>مدیر واحد: {detail.manager}</small></div>
