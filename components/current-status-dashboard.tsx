@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ArrowDownLeft, ArrowUpLeft, BriefcaseBusiness, CalendarClock, CheckCircle2, CircleAlert, Download, FileSpreadsheet, Search, ShieldCheck, TrendingDown, TrendingUp, UserPlus, Users } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 
 const fa = (value: number) => value.toLocaleString("fa-IR");
@@ -39,10 +38,6 @@ const staff = [
   {id:"1266",name:"محمد نادری",unit:"انبار",role:"انباردار",gender:"مرد",hire:"۱۴۰۱/۱۱/۱۲",contract:"امانی",location:"شیراز",status:"شاغل"},
   {id:"1092",name:"نرگس صادقی",unit:"مالی",role:"سرپرست حسابداری",gender:"زن",hire:"۱۳۹۶/۰۹/۰۳",contract:"رسمی",location:"تهران",status:"شاغل"},
 ];
-const talent = [
-  {name:"سارا محمدی",x:78,y:82},{name:"نرگس صادقی",x:88,y:91},{name:"امیر رضایی",x:64,y:86},{name:"مریم جعفری",x:83,y:66},{name:"علی اکبری",x:45,y:72},{name:"رضا احمدی",x:57,y:48},{name:"لیلا توکلی",x:72,y:58},{name:"حسن مرادی",x:35,y:43},{name:"پویا محمدی",x:89,y:76},
-];
-const skills = [{name:"نگهداری پیش‌بینانه",available:18,needed:31,gap:13},{name:"تحلیل داده صنعتی",available:9,needed:22,gap:13},{name:"سرپرستی و بازخورد",available:24,needed:35,gap:11},{name:"ایمنی رفتاری",available:74,needed:92,gap:18},{name:"مذاکره تجاری",available:16,needed:23,gap:7}];
 
 function Sparkline({values,color}:{values:number[];color:string}) {
   const min=Math.min(...values),max=Math.max(...values),range=max-min||1;
@@ -87,9 +82,7 @@ export function CurrentStatusDashboard({role}:{role:"executive"|"hr"}) {
 
   return <div className="live-dashboard">
     <section className="live-dashboard-head"><div><p><span className="pulse-dot" />وضعیت جاری سازمان</p><h2>تصویر یکپارچه سرمایه انسانی</h2><span>آخرین همگام‌سازی: امروز، ساعت ۰۶:۰۰ · بروزرسانی روزانه</span></div><div className="data-source-stack"><Badge variant="outline">راهکاران</Badge><Badge variant="outline">دنیای پردازش</Badge><Badge variant="outline">Excel ارزیابی</Badge></div></section>
-    <Tabs defaultValue="status" className="live-tabs">
-      <TabsList><TabsTrigger value="status"><TrendingUp />وضعیت سازمان</TabsTrigger><TabsTrigger value="talent"><BriefcaseBusiness />مدیریت استعدادها</TabsTrigger></TabsList>
-      <TabsContent value="status" className="live-tab-content">
+    <div className="live-tab-content">
         <section className="live-kpi-grid">
           <article className="live-kpi navy"><div className="kpi-title"><span><Users /></span><p>کل پرسنل</p></div><div className="kpi-number"><strong>{fa(currentHeadcount)}</strong><small>نفر فعال</small></div><div className="kpi-change good"><ArrowUpLeft />۲.۴٪ نسبت به ماه قبل <b>+{fa(Math.max(1,Math.round(7*scale)))} ورودی</b></div><Sparkline values={[278,283,286,291,294,297,300].map(v=>v*scale)} color="#32c7b8" /></article>
           <article className={`live-kpi ${attrition>15?"red":"teal"}`}><div className="kpi-title"><span><TrendingDown /></span><p>نرخ ترک خدمت</p></div><div className="kpi-number"><strong>{attrition.toLocaleString("fa-IR")}٪</strong><small>در بازه انتخابی</small></div><div className="kpi-change good"><ArrowDownLeft />۰.۸٪ کاهش مطلوب</div><Sparkline values={[9.4,8.8,8.5,8.1,7.8,7.6,attrition]} color={attrition>15?"#ef4444":"#18a99a"} /></article>
@@ -120,19 +113,9 @@ export function CurrentStatusDashboard({role}:{role:"executive"|"hr"}) {
         </section>
 
         {role==="hr"&&<section className="live-section"><div className="live-section-title"><div><span>۳</span><h2>جزئیات پرسنلی</h2></div><p>داده خام قابل جستجو و دریافت برای تحلیل تکمیلی</p></div>
-          <article className="live-table-card"><header><div className="table-search"><Search/><input value={search} onChange={event=>setSearch(event.target.value)} placeholder="جستجو با نام، کد یا سمت..." aria-label="جستجوی پرسنل"/></div><button className="excel-button" onClick={exportExcel}><FileSpreadsheet/>خروجی اکسل</button></header><div className="live-table-scroll"><table><thead><tr><th>کد پرسنلی</th><th>نام و نام خانوادگی</th><th>واحد</th><th>سمت</th><th>جنسیت</th><th>تاریخ استخدام</th><th>قرارداد</th><th>وضعیت</th></tr></thead><tbody>{filteredStaff.map(person=><tr key={person.id}><td>{person.id}</td><td><strong>{person.name}</strong></td><td>{person.unit}</td><td>{person.role}</td><td>{person.gender}</td><td>{person.hire}</td><td>{person.contract}</td><td><Badge className={person.status==="شاغل"?"soft-teal":person.status==="در حال خروج"?"urgent":"soft-amber"}>{person.status}</Badge></td></tr>)}</tbody></table>{filteredStaff.length===0&&<div className="table-empty">نتیجه‌ای مطابق فیلترهای انتخاب‌شده پیدا نشد.</div>}</div><footer><span>{fa(filteredStaff.length)} ردیف در نسخه نمایشی</span><small>خروجی با فرمت CSV سازگار با Excel دریافت می‌شود</small></footer></article>
+          <article className="live-table-card"><header><div className="table-search"><Search/><input value={search} onChange={event=>setSearch(event.target.value)} placeholder="جستجو با نام، کد یا سمت..." aria-label="جستجوی پرسنل"/></div><button className="excel-button" onClick={exportExcel}><FileSpreadsheet/>خروجی اکسل</button></header><div className="live-table-scroll"><table><thead><tr><th>کد پرسنلی</th><th>نام و نام خانوادگی</th><th>واحد</th><th>سمت</th><th>جنسیت</th><th>تاریخ استخدام</th><th>قرارداد</th><th>وضعیت</th></tr></thead><tbody>{filteredStaff.map(person=><tr key={person.id}><td>{person.id}</td><td><strong>{person.name}</strong></td><td>{person.unit}</td><td>{person.role}</td><td>{person.gender}</td><td>{person.hire}</td><td>{person.contract}</td><td><Badge className={person.status==="شاغل"?"soft-teal":person.status==="در حال خروج"?"urgent":"soft-amber"}>{person.status}</Badge></td></tr>)}</tbody></table>{filteredStaff.length===0&&<div className="table-empty">نتیجه‌ای مطابق فیلترهای انتخاب‌شده پیدا نشد.</div>}</div><footer><span>{fa(filteredStaff.length)} ردیف در نسخه شماره ۱</span><small>خروجی با فرمت CSV سازگار با Excel دریافت می‌شود</small></footer></article>
         </section>}
-      </TabsContent>
-
-      <TabsContent value="talent" className="live-tab-content">
-        <section className="talent-intro"><div><span><BriefcaseBusiness/></span><div><h2>مدیریت استعدادها و جانشین‌پروری</h2><p>تصمیم‌گیری توسعه‌ای بر اساس عملکرد، پتانسیل و شکاف مهارت؛ نتایج برای تصمیم نهایی نیازمند بررسی انسانی هستند.</p></div></div><Badge variant="outline">لایه پیشرفته</Badge></section>
-        <div className="talent-layout">
-          <article className="nine-box-card"><header><div><h3>ماتریس عملکرد ـ پتانسیل</h3><p>محور افقی: پتانسیل · محور عمودی: عملکرد</p></div><span className="axis-help">۹-Box Grid</span></header><div className="nine-box"><span className="axis-y">عملکرد بالا ←</span>{["ستاره آینده","عملکرد قوی","متخصص کلیدی","ظرفیت رشد","مهره قابل اتکا","حمایت توسعه‌ای","استعداد پنهان","نیازمند هدایت","بازنگری نقش"].map((label,index)=><div className={`nine-cell cell-${index}`} key={label}><small>{label}</small></div>)}{talent.map((person,index)=><span className="talent-dot" title={role==="hr"?person.name:`کارمند ${index+1}`} key={person.name} style={{right:`${person.x}%`,bottom:`${person.y}%`}}>{role==="hr"?person.name.split(" ")[0]:index+1}</span>)}<span className="axis-x">پتانسیل بالا ←</span></div></article>
-          <article className="funnel-card"><header><h3>خط لوله جانشینی</h3><p>آمادگی نیروها برای نقش‌های کلیدی</p></header><div className="succession-funnel"><div style={{width:"100%"}}><span>شناسایی شده</span><strong>۴۱</strong></div><div style={{width:"80%"}}><span>در حال آموزش</span><strong>۲۹</strong></div><div style={{width:"58%"}}><span>آماده جانشینی</span><strong>۱۶</strong></div><div style={{width:"36%"}}><span>جانشین شده</span><strong>۷</strong></div></div><div className="funnel-note"><CheckCircle2/><span>نرخ تبدیل شناسایی تا آمادگی: ۳۹٪</span></div></article>
-        </div>
-        <article className="live-table-card skill-gap"><header><div><h3>شکاف مهارت‌های کلیدی</h3><p>فاصله ظرفیت موجود تا نیاز هدف سازمان</p></div><button className="excel-button ghost"><Download/>دریافت گزارش</button></header><div className="live-table-scroll"><table><thead><tr><th>عنوان مهارت</th><th>نیروی موجود</th><th>نیروی مورد نیاز</th><th>میزان شکاف</th><th>شدت نیاز</th></tr></thead><tbody>{skills.map(skill=><tr key={skill.name}><td><strong>{skill.name}</strong></td><td>{fa(skill.available)} نفر</td><td>{fa(skill.needed)} نفر</td><td><div className="gap-bar"><b style={{width:`${Math.min(100,skill.gap*5)}%`}}/></div><strong>{fa(skill.gap)} نفر</strong></td><td><Badge className={skill.gap>12?"urgent":skill.gap>8?"soft-amber":"soft-teal"}>{skill.gap>12?"زیاد":skill.gap>8?"متوسط":"کنترل‌شده"}</Badge></td></tr>)}</tbody></table></div></article>
-      </TabsContent>
-    </Tabs>
+    </div>
     <section className="governance-note"><ShieldCheck/><div><strong>چارچوب بروزرسانی و دسترسی</strong><p>اطلاعات جمعیتی هر شب از راهکاران، حضور و غیاب از دنیای پردازش و ارزیابی‌ها از فایل‌های کنترل‌شده Excel دریافت می‌شوند. مدیرعامل فقط اطلاعات تجمیعی را می‌بیند؛ اطلاعات فردی و خروجی داده فقط در دسترس مدیر منابع انسانی است.</p></div><span>Daily Batch</span></section>
   </div>;
 }

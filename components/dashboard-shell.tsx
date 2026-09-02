@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 const executiveItems = [
   { label: "نمای کلی سازمان", icon: LayoutDashboard, href: "/executive" },
   { label: "وضعیت جاری سازمان", icon: Gauge, href: "/current-status" },
+  { label: "مدیریت استعدادها", icon: BriefcaseBusiness, href: "/talent-management" },
   { label: "سرمایه انسانی", icon: Users, href: "/executive" },
   { label: "عملکرد واحدها", icon: Building2, href: "/departments/production" },
   { label: "رفتار سازمانی", icon: Activity, href: "/organizational-behavior" },
@@ -17,6 +18,7 @@ const executiveItems = [
 const hrItems = [
   { label: "داشبورد منابع انسانی", icon: LayoutDashboard, href: "/hr" },
   { label: "وضعیت جاری سازمان", icon: Gauge, href: "/hr/current-status" },
+  { label: "مدیریت استعدادها", icon: BriefcaseBusiness, href: "/hr/talent-management" },
   { label: "کارکنان", icon: Users, href: "/employees" },
   { label: "حضور و غیاب", icon: CalendarClock, href: "/employees/1038" },
   { label: "ارزیابی عملکرد", icon: ClipboardCheck, href: "/employees/1038" },
