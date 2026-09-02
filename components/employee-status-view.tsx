@@ -31,6 +31,7 @@ function ScoreRow({label,value}:{label:string;value:number}){return <div classNa
 export function EmployeeStatusView({initialId="1038"}:{initialId?:string}){
   const [selectedId,setSelectedId]=useState(employees.some(item=>item.id===initialId)?initialId:"1038");
   const [query,setQuery]=useState("");
+  const [activeTab,setActiveTab]=useState("overview");
   const person=employees.find(item=>item.id===selectedId)??employees[0];
   const visible=useMemo(()=>employees.filter(item=>item.name.includes(query)||item.id.includes(query)||item.unit.includes(query)||item.position.includes(query)),[query]);
   const attendanceMonths=[Math.max(55,person.attendance-7),Math.max(55,person.attendance-3),person.attendance,Math.min(100,person.attendance+2)];
@@ -40,8 +41,8 @@ export function EmployeeStatusView({initialId="1038"}:{initialId?:string}){
     <aside className="employee-picker">
       <header><div><span><Users/></span><div><h2>انتخاب کارکنان</h2><p>{fa(employees.length)} پرونده در نسخه شماره ۱</p></div></div></header>
       <div className="employee-picker-search"><Search/><input value={query} onChange={event=>setQuery(event.target.value)} placeholder="نام، کد، واحد یا سمت..." aria-label="جستجوی کارکنان"/></div>
-      <label className="employee-mobile-select"><span>انتخاب پرسنل</span><select value={selectedId} onChange={event=>setSelectedId(event.target.value)}>{employees.map(item=><option value={item.id} key={item.id}>{item.name} · {item.id}</option>)}</select></label>
-      <div className="employee-picker-list">{visible.map(item=><button key={item.id} className={item.id===selectedId?"active":""} onClick={()=>setSelectedId(item.id)}><span className="picker-avatar">{item.avatar}</span><span><strong>{item.name}</strong><small>{item.id} · {item.unit}</small></span><Badge className={badgeTone(item.state)}>{item.state}</Badge></button>)}{visible.length===0&&<p className="picker-empty">پرسنلی پیدا نشد.</p>}</div>
+      <label className="employee-mobile-select"><span>انتخاب پرسنل</span><select value={selectedId} onChange={event=>{setSelectedId(event.target.value);setActiveTab("overview");}}>{employees.map(item=><option value={item.id} key={item.id}>{item.name} · {item.id}</option>)}</select></label>
+      <div className="employee-picker-list">{visible.map(item=><button key={item.id} className={item.id===selectedId?"active":""} type="button" onClick={()=>{setSelectedId(item.id);setActiveTab("overview");}}><span className="picker-avatar">{item.avatar}</span><span><strong>{item.name}</strong><small>{item.id} · {item.unit}</small></span><Badge className={badgeTone(item.state)}>{item.state}</Badge></button>)}{visible.length===0&&<p className="picker-empty">پرسنلی پیدا نشد.</p>}</div>
     </aside>
 
     <section className="employee-status-content">
@@ -53,9 +54,9 @@ export function EmployeeStatusView({initialId="1038"}:{initialId?:string}){
         <div><span><HeartPulse/>معاینات</span><strong>{person.health.includes("نیازمند")?"پیگیری":"معتبر"}</strong><small>{person.health}</small></div>
       </section>
 
-      <Tabs defaultValue="overview" className="profile-tabs" key={person.id}>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="profile-tabs" activationMode="manual">
         <TabsList><TabsTrigger value="overview"><UserRound/>نمای ۳۶۰</TabsTrigger><TabsTrigger value="attendance"><CalendarClock/>حضور</TabsTrigger><TabsTrigger value="performance"><ClipboardCheck/>عملکرد</TabsTrigger><TabsTrigger value="training"><BookOpenCheck/>آموزش</TabsTrigger><TabsTrigger value="health"><HeartPulse/>سلامت</TabsTrigger></TabsList>
-        <TabsContent value="overview" className="tab-panel-grid">
+        <TabsContent value="overview" forceMount hidden={activeTab!=="overview"} className="tab-panel-grid">
           <Card className="panel-card"><CardHeader><CardTitle>اطلاعات شغلی و پرسنلی</CardTitle><Badge variant="outline">راهکاران</Badge></CardHeader><CardContent className="fact-grid">
             <div className="fact"><span>رتبه شغلی</span><strong>{person.rank}</strong></div><div className="fact"><span>تاریخ استخدام</span><strong>{person.hire}</strong></div><div className="fact"><span>تحصیلات</span><strong>{person.education}</strong></div><div className="fact"><span>نوع قرارداد</span><strong>{person.contract}</strong></div><div className="fact"><span>محل خدمت</span><strong>{person.location}</strong></div><div className="fact"><span>مدیر مستقیم</span><strong>{person.supervisor}</strong></div>
           </CardContent></Card>
@@ -63,18 +64,18 @@ export function EmployeeStatusView({initialId="1038"}:{initialId?:string}){
           <Card className="panel-card"><CardHeader><CardTitle>موارد نیازمند توجه</CardTitle><AlertTriangle/></CardHeader><CardContent className="action-list">{person.reasons.map((reason,index)=><div className="action-item" key={reason}><span>{index+1}</span><div><strong>{reason}</strong><p>منبع: حضور، عملکرد، آموزش یا پرونده پرسنلی</p></div></div>)}</CardContent></Card>
           <Card className="panel-card"><CardHeader><CardTitle>اقدامات توسعه‌ای پیشنهادی</CardTitle><CheckCircle2/></CardHeader><CardContent className="action-list">{person.actions.map((action,index)=><div className="action-item" key={action}><span>{index+1}</span><div><strong>{action}</strong><p>نیازمند تأیید مدیر منابع انسانی و مدیر مستقیم</p></div></div>)}</CardContent></Card>
         </TabsContent>
-        <TabsContent value="attendance" className="employee-tab-detail">
+        <TabsContent value="attendance" forceMount hidden={activeTab!=="attendance"} className="employee-tab-detail">
           <Card className="panel-card"><CardHeader><CardTitle>روند حضور چهار ماه اخیر</CardTitle><Badge variant="outline">دنیای پردازش</Badge></CardHeader><CardContent className="attendance-timeline">{attendanceMonths.map((value,index)=><div key={index}><span>{["خرداد","تیر","مرداد","شهریور"][index]}</span><div><b style={{height:`${value}%`}}/></div><strong>{fa(value)}٪</strong></div>)}</CardContent></Card>
           <Card className="panel-card"><CardHeader><CardTitle>خلاصه وضعیت حضور</CardTitle><CalendarClock/></CardHeader><CardContent className="fact-grid"><div className="fact"><span>ورود به‌موقع</span><strong>{fa(Math.max(60,person.attendance-3))}٪</strong></div><div className="fact"><span>تأخیر این ماه</span><strong>{person.attendance<85?"۳ مورد":"۱ مورد"}</strong></div><div className="fact"><span>غیبت</span><strong>{person.attendance<80?"۲ روز":"۰ روز"}</strong></div><div className="fact"><span>اضافه‌کاری</span><strong>{person.unit==="تولید"?"۱۸ ساعت":"۶ ساعت"}</strong></div></CardContent></Card>
         </TabsContent>
-        <TabsContent value="performance" className="employee-tab-detail">
+        <TabsContent value="performance" forceMount hidden={activeTab!=="performance"} className="employee-tab-detail">
           <Card className="panel-card"><CardHeader><CardTitle>تاریخچه ارزیابی عملکرد</CardTitle><Activity/></CardHeader><CardContent className="performance-history">{performanceHistory.map((value,index)=><div key={index}><span>{["دوره اول","دوره دوم","دوره جاری"][index]}</span><strong>{fa(value)}</strong><div className="indicator-track"><b style={{width:`${value}%`}}/></div></div>)}</CardContent></Card>
           <Card className="panel-card"><CardHeader><CardTitle>جمع‌بندی عملکرد</CardTitle><ClipboardCheck/></CardHeader><CardContent className="action-list"><div className="action-item"><span>۱</span><div><strong>تحقق اهداف شغلی</strong><p>{fa(person.performance)} درصد اهداف دوره محقق شده است.</p></div></div><div className="action-item"><span>۲</span><div><strong>وضعیت نسبت به دوره قبل</strong><p>{person.performance>=70?"روند پایدار یا رو به بهبود است.":"نیازمند برنامه بهبود و بازخورد ساختاریافته است."}</p></div></div></CardContent></Card>
         </TabsContent>
-        <TabsContent value="training" className="employee-tab-detail">
+        <TabsContent value="training" forceMount hidden={activeTab!=="training"} className="employee-tab-detail">
           <Card className="panel-card"><CardHeader><CardTitle>وضعیت آموزش و توسعه</CardTitle><BookOpenCheck/></CardHeader><CardContent className="training-status"><div className="training-ring" style={{background:`conic-gradient(#0f9f92 ${person.training*3.6}deg,#e7edf0 0)`}}><span><strong>{fa(person.training)}٪</strong><small>تکمیل</small></span></div><div className="action-list"><div className="action-item"><span>✓</span><div><strong>آشنایی با الزامات سازمان</strong><p>تکمیل‌شده · ۸ ساعت</p></div></div><div className="action-item"><span>۲</span><div><strong>{person.actions[0]}</strong><p>{person.training<70?"عقب‌افتاده و نیازمند پیگیری":"پیشنهاد توسعه‌ای دوره بعد"}</p></div></div></div></CardContent></Card>
         </TabsContent>
-        <TabsContent value="health" className="employee-tab-detail">
+        <TabsContent value="health" forceMount hidden={activeTab!=="health"} className="employee-tab-detail">
           <Card className="panel-card health-status-card"><CardContent><span><HeartPulse/></span><div><h3>وضعیت معاینات دوره‌ای</h3><strong>{person.health}</strong><p>جزئیات پزشکی در امتیاز رفتار سازمانی یا تصمیم‌های استخدامی استفاده نمی‌شود و فقط وضعیت اعتبار معاینات نمایش داده شده است.</p></div></CardContent></Card>
         </TabsContent>
       </Tabs>

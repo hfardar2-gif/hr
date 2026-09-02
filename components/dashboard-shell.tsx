@@ -51,7 +51,7 @@ export function DashboardShell({ role, children }: { role: "executive" | "hr"; c
               })}
             </SidebarMenu></SidebarGroupContent></SidebarGroup>
           </SidebarContent>
-          <SidebarFooter className="border-t border-white/10 p-3"><SidebarMenu><SidebarMenuItem><SidebarMenuButton asChild tooltip="خروج از نسخه نمایشی" className="nav-item"><Link href="/"><LogOut /><span>خروج از نسخه نمایشی</span></Link></SidebarMenuButton></SidebarMenuItem></SidebarMenu></SidebarFooter>
+          <SidebarFooter className="border-t border-white/10 p-3"><SidebarMenu><SidebarMenuItem><SidebarMenuButton asChild tooltip="خروج از نسخه صفر" className="nav-item"><Link href="/"><LogOut /><span>خروج از نسخه صفر</span></Link></SidebarMenuButton></SidebarMenuItem></SidebarMenu></SidebarFooter>
         </Sidebar>
         <SidebarInset className="dashboard-surface">
           <header className="topbar">

@@ -479,3 +479,18 @@ button,a,select,input{touch-action:manipulation}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+
+/* Mobile interaction reliability */
+.profile-tabs [role="tabpanel"][hidden]{display:none!important}
+.profile-tabs [role="tab"]{-webkit-tap-highlight-color:transparent}
+@media(max-width:900px){
+ .topbar{background:#fff;backdrop-filter:none;-webkit-backdrop-filter:none}
+ .dashboard-content,.employee-status-content,.profile-tabs{min-width:0}
+ .profile-tabs [role="tablist"]{overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+ .profile-tabs [role="tab"]{scroll-snap-align:start}
+ .profile-tabs [role="tabpanel"]{min-width:0}
+}
+@supports not (height:100dvh){
+ .login-shell,.login-access-panel,.dashboard-root{min-height:100vh}
+}

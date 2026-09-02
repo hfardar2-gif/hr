@@ -25,7 +25,7 @@ export default function LoginPage() {
       <section className="login-access-panel">
         <div className="access-wrap">
           <div className="mobile-brand"><BrandMark /><strong>سامانه هوشمند سرمایه انسانی</strong></div>
-          <p className="eyebrow">ورود به نسخه نمایشی</p>
+          <p className="eyebrow">ورود به نسخه صفر</p>
           <h2>نقش خود را انتخاب کنید</h2>
           <p className="muted-copy">سطح اطلاعات و ابزارهای تصمیم‌گیری متناسب با نقش شما نمایش داده می‌شود.</p>
           <div className="role-grid">
